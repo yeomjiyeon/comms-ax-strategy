@@ -118,7 +118,7 @@
 // ║  Google Apps Script 배포 URL                              ║
 // ║  ⚠ 아래 URL을 본인의 Apps Script 웹앱 URL로 교체하세요      ║
 // ╚══════════════════════════════════════════════════════════╝
-const API_URL = 'https://script.google.com/macros/s/AKfycbxI1M05PAJYmyjG8oeQFZic8yH9ZgAdM2cJkCWXD6R30p9zoJs7HnBcSc80HKFbunl1Lg/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbw4HHWVI5mTM4mHebK6ARs5tb2qVj5NryfO-sXODFfmwoi_WlxMugJdY2usvpuMJxlT7g/exec';
 const STORAGE_KEY = 'fnf_comms_ax_dashboard';
 
 // ══ 전체 상태를 하나의 객체로 수집 ══
@@ -186,33 +186,72 @@ function loadFromCache() {
   } catch(e) { return null; }
 }
 
-// ══ Google Sheets 저장 (POST form 방식 - URL 길이 제한 우회) ══
+// ══ Google Sheets 저장 (hidden iframe form submit - CORS 완전 우회) ══
 async function saveToCloud() {
   _syncStatus = 'saving'; updateSyncBadge();
   const state = collectState();
   saveToCache(state);
   try {
-    // Google Apps Script는 form POST만 CORS 없이 받을 수 있음
-    const formData = new URLSearchParams();
-    formData.append('action', 'saveAll');
-    formData.append('data', JSON.stringify(state));
-    const r = await fetch(API_URL, {
-      method: 'POST',
-      body: formData,
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    // 데이터가 크면 청크로 분할하여 GET 파라미터 제한 우회
+    const jsonStr = JSON.stringify(state);
+    
+    // 방법: hidden iframe + form submit (CORS 완전 우회)
+    return new Promise((resolve) => {
+      const iframeName = 'save_frame_' + Date.now();
+      const iframe = document.createElement('iframe');
+      iframe.name = iframeName;
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = API_URL;
+      form.target = iframeName;
+      form.style.display = 'none';
+
+      const actionInput = document.createElement('input');
+      actionInput.type = 'hidden';
+      actionInput.name = 'action';
+      actionInput.value = 'saveAll';
+      form.appendChild(actionInput);
+
+      const dataInput = document.createElement('input');
+      dataInput.type = 'hidden';
+      dataInput.name = 'data';
+      dataInput.value = jsonStr;
+      form.appendChild(dataInput);
+
+      document.body.appendChild(form);
+
+      // iframe 로드 완료 시 성공으로 처리
+      let settled = false;
+      iframe.onload = () => {
+        if (settled) return;
+        settled = true;
+        _syncStatus = 'saved'; updateSyncBadge();
+        const ss = document.getElementById('syncStatus');
+        if (ss) {
+          const now = new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'}));
+          ss.textContent = '마지막 동기화: ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+        }
+        setTimeout(() => { if (_syncStatus === 'saved') { _syncStatus = 'idle'; updateSyncBadge(); } }, 2000);
+        // 정리
+        setTimeout(() => { iframe.remove(); form.remove(); }, 3000);
+        resolve(true);
+      };
+
+      // 타임아웃 (10초)
+      setTimeout(() => {
+        if (settled) return;
+        settled = true;
+        console.warn('클라우드 저장 타임아웃 (iframe)');
+        _syncStatus = 'error'; updateSyncBadge();
+        iframe.remove(); form.remove();
+        resolve(false);
+      }, 10000);
+
+      form.submit();
     });
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    const text = await r.text();
-    if (text.includes('<!DOCTYPE') || text.includes('<html')) throw new Error('리다이렉트');
-    const d = JSON.parse(text);
-    if (!d.success) throw new Error(d.error || '저장 실패');
-    _syncStatus = 'saved'; updateSyncBadge();
-    const ss = document.getElementById('syncStatus');
-    if (ss) {
-      const now = new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'}));
-      ss.textContent = '마지막 동기화: ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
-    }
-    setTimeout(() => { if (_syncStatus === 'saved') { _syncStatus = 'idle'; updateSyncBadge(); } }, 2000);
   } catch(err) {
     console.error('클라우드 저장 오류:', err);
     _syncStatus = 'error'; updateSyncBadge();
@@ -334,7 +373,7 @@ document.querySelectorAll('.tab').forEach(tab=>{tab.addEventListener('click',()=
 // ═══ STATUS LABELS ═══
 const ST={done:'완료',prog:'진행 중',plan:'개발 예정'};
 const SL={done:'완료',prog:'진행 중',plan:'개발 예정'};
-const trans=[{name:'데일리 뉴스 클리핑',before:'에이전시',mid:'AI 자동화 + 기존 방식',after:'Agent 자율 실행 (Green)'},{name:'보도자료 작성',before:'에이전시 + 내부 직원',mid:'AI 자동화 + 기존 방식',after:'AI 초안 + 내부 검수 30분'},{name:'미디어 커버리지 집계',before:'에이전시 ',mid:'AI 자동화 + 기존 방식',after:'Agent 자율 갱신 (Green)'},{name:'사내 콘텐츠 제작',before:'내부 직원 + 에이전시 일부',mid:'AI 자동화 + 기존 방식 ',after:'Agent 자율 발행 (Green)'},{name:'KPI 리포트 작성',before:'에이전시 + 내부 직원',mid:'AI 자동화 + 기존 방식',after:'Agent 자율 갱신 + 브리핑 생성'},{name:'리스크 모니터링',before:'내부 직원 + 에이전시 일부',mid:'AI 자동화 + 기존 방식',after:'Agent 자율 탐지 → Amber 에스컬레이션'},{name:'기자 관계 관리',before:'내부 직원 (대면, 식사)',mid:'내부 직원 (불변)',after:'내부 직접 + Agent 점수 관리'},{name:'위기 커뮤니케이션',before:'내부 직원 + 에이전시',mid:'내부 직원 + 기존 방식',after:'Swarm 대응 패키지 → 인간 판단 (Red)'},{name:'경영진 보고',before:'내부 직원',mid:'AI 자동화 + 내부 직원 ',after:'Agent 브리핑 생성 → 팀장 검토 (Amber)'},{name:'ESG 보고서',before:'외부 컨설팅 + 내부 직원',mid:'외부 컨설팅 + AI 수집 병행',after:'AI 수집·초안 + 검수·소통'},{name:'경쟁사 PR 분석',before:'수동 (여유 없음)',mid:'AI 뉴스 수집',after:'Agent 자율 분석 + SOV 추적 (Green)'}];
+const trans=[{name:'데일리 뉴스 클리핑',before:'에이전시',mid:'AI 자동화 + 기존 방식',after:'100% AI 자동화'},{name:'보도자료 작성',before:'에이전시 + 내부 직원',mid:'AI 자동화 + 기존 방식',after:'AI 초안 + 내부 검수 30분'},{name:'미디어 커버리지 집계',before:'에이전시 ',mid:'AI 자동화 + 기존 방식',after:'100% 대시보드 자동 갱신'},{name:'사내 콘텐츠 제작',before:'내부 직원 + 에이전시 일부',mid:'AI 자동화 + 기존 방식 ',after:'AI 생성 + 검수 20분'},{name:'KPI 리포트 작성',before:'에이전시 + 내부 직원',mid:'AI 자동화 + 기존 방식',after:'대시보드 자동 갱신'},{name:'리스크 모니터링',before:'내부 직원 + 에이전시 일부',mid:'AI 자동화 + 기존 방식',after:'AI 탐지 + 판단만'},{name:'기자 관계 관리',before:'내부 직원 (대면, 식사)',mid:'내부 직원 (불변)',after:'내부 직접 (불변)'},{name:'위기 커뮤니케이션',before:'내부 직원 + 에이전시',mid:'내부 직원 + 기존 방식',after:'AI 초안 + 최종 판단'},{name:'경영진 보고',before:'내부 직원',mid:'AI 자동화 + 내부 직원 ',after:'대시보드 기반 보고'},{name:'ESG 보고서',before:'외부 컨설팅 + 내부 직원',mid:'외부 컨설팅 + AI 수집 병행',after:'AI 수집·초안 + 검수·소통'}];
 function renderTR(){const tb=document.getElementById('transBody');if(!tb)return;tb.innerHTML=trans.map((t,i)=>`<div class="tr-row"><div><input class="ed" style="font-size:14px;font-weight:500;color:var(--text)" value="${esc(t.name)}" data-tf="name" data-ti="${i}"></div><div><input class="ed" style="font-size:13px" value="${esc(t.before)}" data-tf="before" data-ti="${i}"></div><div class="tr-arrow">→</div><div><input class="ed" style="font-size:13px;color:var(--accent);font-weight:500" value="${esc(t.mid)}" data-tf="mid" data-ti="${i}"></div><div class="tr-arrow">→</div><div><input class="ed" style="font-size:13px" value="${esc(t.after)}" data-tf="after" data-ti="${i}"></div><button class="tr-del" data-i="${i}">✕</button></div>`).join('');tb.addEventListener('input',e=>{const i=+e.target.dataset.ti,f=e.target.dataset.tf;if(isNaN(i)||!f)return;trans[i][f]=e.target.value;autoSave()})}
 
 // ═══ R&R ═══
@@ -362,8 +401,7 @@ const CATS=[
   { key:'기업 PR/MPR', icon:'📰', sub:'보도자료, 회사소개자료', aliases:['보도자료','mpr','MPR','PR 통합','press','회사 소개서','company profile','coverage','게재 추적','PR 전략','pr 전략'] },
   { key:'KPI/대시보드', icon:'📈', sub:'PR 성과 측정 · 대시보드', aliases:['kpi','KPI','대시보드','dashboard','성과 측정','ROI','리포팅'] },
   { key:'ESG', icon:'🌱', sub:'보고서 · 중대성평가 · 공시', aliases:['esg','ESG','csr','중대성','공시','지속가능'] },
-  { key:'Agent Harness', icon:'🧠', sub:'자율 에이전트 · 하네스 조율 · Intelligence Layer', aliases:['harness','하네스','intelligence','인텔리전스','에이전트','agent','자율','autonomous','advisor','briefing','scorer','radar','swarm','policy engine'] },
-  { key:'기타', icon:'⚙️', sub:'지식그래프 등', aliases:['프로세스','지식 그래프','ax board','온톨로지','워크플로우'] }
+  { key:'기타', icon:'⚙️', sub:'지식그래프 등', aliases:['프로세스','지식 그래프','ax board','온톨로지','워크플로우','agent','에이전트'] }
 ];
 
 // ★ 업무 시간 구성 데이터 (편집 모드에서 수정 가능)
@@ -410,15 +448,7 @@ let nTasks=[
   {title:'F&F Industry Radar(이미지 알람)',assignee:'양정재',status:'plan',category:'미디어 모니터링\n& Risk Management',phase:'Phase 3'},
   {title:'기자/매체 성향 프로파일러',assignee:'표지수, 양정재',status:'plan',category:'기업 PR & IR & MPR',phase:'Phase 3'},
   {title:'PR AX Roadmap Dashboard',assignee:'염지연',status:'prog',category:'KPI · 대시보드',phase:'Phase 2'},
-  {title:'F&F Industry Radar',assignee:'',status:'done',category:'기업 PR & IR & MPR',phase:'Phase 1'},
-  {title:'Comms Agent Harness (Engine)',assignee:'염지연',status:'prog',category:'Agent Harness',phase:'Phase 2',progress:'정책 기반 자율 실행 중앙 루프'},
-  {title:'PR Intelligence Advisor',assignee:'염지연',status:'prog',category:'Agent Harness',phase:'Phase 2',progress:'커버리지 갭 분석 → 액션 추천'},
-  {title:'Stakeholder Briefing Generator',assignee:'염지연, 조혜진',status:'prog',category:'Agent Harness',phase:'Phase 2',progress:'경영진 1-page 브리핑 자동 생성'},
-  {title:'Media Relationship Scorer',assignee:'류영민',status:'prog',category:'Agent Harness',phase:'Phase 2',progress:'기자 관계 건강도 점수 자동 산출'},
-  {title:'Competitive PR Radar',assignee:'양정재',status:'prog',category:'Agent Harness',phase:'Phase 2',progress:'경쟁사 PR 패턴 · SOV · 갭 분석'},
-  {title:'Policy Engine (Green/Amber/Red)',assignee:'염지연',status:'prog',category:'Agent Harness',phase:'Phase 2',progress:'정책 매트릭스 기반 자율/에스컬 분류'},
-  {title:'Shared Memory Layer',assignee:'염지연',status:'prog',category:'Agent Harness',phase:'Phase 2',progress:'에이전트 간 기자·이슈·캠페인 기억 공유'},
-  {title:'Swarm Coordination',assignee:'염지연',status:'prog',category:'Agent Harness',phase:'Phase 2',progress:'멀티 에이전트 동시 기동 · 결과 통합'}
+  {title:'F&F Industry Radar',assignee:'',status:'done',category:'기업 PR & IR & MPR',phase:'Phase 1'}
 ],nFilter='all';
 function matchCat(t){const c=(t.category||'').toLowerCase(),n=(t.title||'').toLowerCase();for(const cat of CATS)for(const a of cat.aliases)if(c.includes(a.toLowerCase())||n.includes(a.toLowerCase()))return cat.key;return null}
 
@@ -431,7 +461,7 @@ function matchCat(t){const c=(t.category||'').toLowerCase(),n=(t.title||'').toLo
 const N_PERIODS=[
   {id:'p1', label:'Phase 1 · 기반 구축',    month:'3월',   aliases:['phase 1','p1','3월','기반','완료']},
   {id:'p2', label:'Phase 2 · 통합·고도화',  month:'4~5월', aliases:['phase 2','p2','4월','5월','4~5월','통합','고도화','진행']},
-  {id:'p3', label:'Phase 3 · Agent Harness',  month:'6월~',  aliases:['phase 3','p3','6월','확장','예정','harness','하네스']}
+  {id:'p3', label:'Phase 3 · 시스템 확장',  month:'6월~',  aliases:['phase 3','p3','6월','확장','예정']}
 ];
 function matchPhase(t){
   const ph=(t.phase||'').toLowerCase();
