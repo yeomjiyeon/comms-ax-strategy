@@ -118,7 +118,7 @@
 // ║  Google Apps Script 배포 URL                              ║
 // ║  ⚠ 아래 URL을 본인의 Apps Script 웹앱 URL로 교체하세요      ║
 // ╚══════════════════════════════════════════════════════════╝
-const API_URL = 'https://script.google.com/macros/s/AKfycbw4HHWVI5mTM4mHebK6ARs5tb2qVj5NryfO-sXODFfmwoi_WlxMugJdY2usvpuMJxlT7g/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwINf2zLvaaC81LwsnDqyMs07dpg-l0bk1t3KQldVzHjVX-oKK6uEC5MBM3m3LwKkm7hg/exec';
 const STORAGE_KEY = 'fnf_comms_ax_dashboard';
 
 // ══ 전체 상태를 하나의 객체로 수집 ══
@@ -450,7 +450,7 @@ let nTasks=[
   {title:'PR AX Roadmap Dashboard',assignee:'염지연',status:'prog',category:'KPI · 대시보드',phase:'Phase 2'},
   {title:'F&F Industry Radar',assignee:'',status:'done',category:'기업 PR & IR & MPR',phase:'Phase 1'}
 ],nFilter='all';
-function matchCat(t){const c=(t.category||'').toLowerCase(),n=(t.title||'').toLowerCase();for(const cat of CATS)for(const a of cat.aliases)if(c.includes(a.toLowerCase())||n.includes(a.toLowerCase()))return cat.key;return null}
+function matchCat(t){const c=(t.category||''),cl=c.toLowerCase(),n=(t.title||'').toLowerCase();for(const cat of CATS){if(c===cat.key)return cat.key;for(const a of cat.aliases)if(cl.includes(a.toLowerCase())||n.includes(a.toLowerCase()))return cat.key}return null}
 
 // ────────────────────────────────────────────────────────
 // ★ 기간 컬럼 설정 (직접 수정 가능)
