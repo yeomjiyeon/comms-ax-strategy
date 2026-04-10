@@ -7,70 +7,74 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-:root{--bg:#111015;--s:#1a1820;--s2:#221f2a;--bd:rgba(255,255,255,0.06);--bdh:rgba(255,255,255,0.12);--neon:#d4f542;--nd:rgba(212,245,66,0.1);--nb:rgba(212,245,66,0.25);--green:#2DD4A0;--grd:rgba(45,212,160,0.1);--grb:rgba(45,212,160,0.2);--blue:#6C8EEF;--bld:rgba(108,142,239,0.1);--blb:rgba(108,142,239,0.2);--amber:#F0A744;--purple:#A78BFA;--red:#F87171;--t:#F0EEF6;--ts:#a09bb2;--td:#6e6a80}
+:root{--bg:#111015;--s:#1a1820;--s2:#221f2a;--bd:rgba(255,255,255,0.06);--bdh:rgba(255,255,255,0.12);--neon:#C9B458;--nd:rgba(201,180,88,0.08);--nb:rgba(201,180,88,0.2);--green:#3EB890;--grd:rgba(45,212,160,0.1);--grb:rgba(45,212,160,0.2);--blue:#7B93D4;--bld:rgba(108,142,239,0.1);--blb:rgba(108,142,239,0.2);--amber:#D4994A;--purple:#9484C4;--red:#D46B6B;--t:#F0EEF6;--ts:#a09bb2;--td:#6e6a80}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg);color:var(--t);min-height:100vh}
-.page{max-width:1440px;margin:0 auto;padding:36px 40px 80px}
+body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg);color:var(--t);min-height:100vh;font-size:16px}
+.page{max-width:1600px;margin:0 auto;padding:48px 52px 100px}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
-.mc{background:var(--s);border-radius:16px;padding:22px 20px;border:1px solid var(--bd);position:relative;overflow:hidden}
-.mc-bar{position:absolute;top:0;left:0;right:0;height:2px;opacity:.6}
-.mc-label{font-size:11px;color:var(--td);font-weight:500;margin-bottom:8px}
-.mc-val{font-size:38px;font-weight:800;letter-spacing:-1.5px;line-height:1}
-.mc-sub{font-size:11px;color:var(--td);margin-top:8px}
-.mc-prog{height:3px;border-radius:2px;background:rgba(255,255,255,0.04);margin-top:12px;overflow:hidden}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.mc{background:var(--s);border-radius:16px;padding:20px 18px;border:1px solid var(--bd);position:relative;overflow:hidden}
+.mc-bar{position:absolute;top:0;left:0;right:0;height:3px;opacity:.6}
+.mc-label{font-size:13px;color:var(--td);font-weight:500;margin-bottom:6px}
+.mc-val{font-size:42px;font-weight:800;letter-spacing:-2px;line-height:1}
+.mc-sub{font-size:12px;color:var(--td);margin-top:8px}
+.mc-prog{height:4px;border-radius:2px;background:rgba(255,255,255,0.04);margin-top:12px;overflow:hidden}
 .mc-prog-fill{height:100%;border-radius:2px;opacity:.6;transition:width .8s}
-.charts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
-.card{background:var(--s);border-radius:16px;padding:20px;border:1px solid var(--bd)}
-.card-title{font-size:12px;font-weight:600;color:var(--ts);margin-bottom:12px}
-.sec-title{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.sec-bar{width:3px;height:16px;border-radius:2px}
-.team-lead{background:linear-gradient(135deg,var(--s) 0%,var(--s2) 100%);border-radius:18px;padding:28px 32px;border:1px solid var(--bd);display:flex;align-items:center;gap:24px;margin-bottom:12px;position:relative;overflow:hidden}
-.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.tm-card{background:var(--s);border-radius:16px;padding:20px 18px;border:1px solid var(--bd);position:relative;overflow:hidden}
-.tm-stripe{position:absolute;top:0;left:0;right:0;height:2px}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:36px}
+.card{background:var(--s);border-radius:20px;padding:18px;border:1px solid var(--bd)}
+.card-title{font-size:14px;font-weight:600;color:var(--ts);margin-bottom:10px}
+.sec-title{font-size:20px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.sec-bar{width:4px;height:22px;border-radius:2px}
+.team-lead{background:linear-gradient(135deg,var(--s) 0%,var(--s2) 100%);border-radius:22px;padding:36px 40px;border:1px solid var(--bd);display:flex;align-items:center;gap:28px;margin-bottom:16px;position:relative;overflow:hidden}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.tm-card{background:var(--s);border-radius:20px;padding:26px 22px;border:1px solid var(--bd);position:relative;overflow:hidden}
+.tm-stripe{position:absolute;top:0;left:0;right:0;height:3px}
 .avatar{border-radius:50%;object-fit:cover;border:2px solid rgba(212,245,66,0.3);flex-shrink:0}
-.av-fallback{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#111;flex-shrink:0;background:linear-gradient(135deg,#d4f542,#E8B931)}
-.pill{font-size:11px;color:var(--ts);padding:5px 14px;border-radius:20px;background:var(--nd);border:1px solid var(--nb)}
-.duty{display:flex;align-items:center;gap:6px;margin-bottom:5px}
-.duty-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0}
-.duty-text{font-size:12px;color:var(--ts)}
-.vision-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:12px}
-.v-card{background:var(--s);border-radius:16px;padding:20px 16px;border:1px solid var(--bd);position:relative;overflow:hidden}
-.v-stripe{position:absolute;top:0;left:0;right:0;height:2px;opacity:.5}
-.v-icon{font-size:20px;margin-bottom:8px}
-.v-title{font-size:13px;font-weight:600;margin-bottom:12px}
-.v-item{display:flex;align-items:flex-start;gap:6px;margin-bottom:6px}
-.v-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0;margin-top:5px;opacity:.7}
-.v-text{font-size:11px;color:var(--ts);line-height:1.4}
-.comp-bar{background:var(--s);border-radius:14px;padding:16px 14px;border:1px solid var(--bd)}
-.comp-bar-inner{display:flex;height:40px;border-radius:8px;overflow:hidden;gap:2px}
-.comp-seg{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;opacity:.85}
-.comp-legend{display:flex;gap:14px;margin-top:10px}
-.comp-legend-item{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--td)}
-.comp-legend-dot{width:6px;height:6px;border-radius:2px;opacity:.85}
-.phase-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
-.ph-col{background:var(--s);border-radius:16px;border:2px solid var(--bd);overflow:hidden;transition:border-color .2s}
+.av-fallback{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#111;flex-shrink:0;background:linear-gradient(135deg,#C9B458,#E8B931)}
+.pill{font-size:13px;color:var(--ts);padding:7px 18px;border-radius:24px;background:var(--nd);border:1px solid var(--nb)}
+.duty{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.duty-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.duty-text{font-size:14px;color:var(--ts)}
+.vision-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:16px}
+.v-card{background:var(--s);border-radius:20px;padding:26px 20px;border:1px solid var(--bd);position:relative;overflow:hidden}
+.v-stripe{position:absolute;top:0;left:0;right:0;height:3px;opacity:.5}
+.v-icon{font-size:28px;margin-bottom:12px}
+.v-title{font-size:16px;font-weight:600;margin-bottom:14px}
+.v-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
+.v-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:7px;opacity:.7}
+.v-text{font-size:13px;color:var(--ts);line-height:1.5}
+.comp-bar{background:var(--s);border-radius:18px;padding:22px 20px;border:1px solid var(--bd)}
+.comp-bar-inner{display:flex;height:52px;border-radius:10px;overflow:hidden;gap:2px}
+.comp-seg{display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;opacity:.85}
+.comp-legend{display:flex;gap:18px;margin-top:14px}
+.comp-legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--td)}
+.comp-legend-dot{width:8px;height:8px;border-radius:2px;opacity:.85}
+.phase-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+.ph-col{background:var(--s);border-radius:20px;border:2px solid var(--bd);overflow:hidden;transition:border-color .2s}
 .ph-col.drag-over{border-color:currentColor}
-.ph-hdr{padding:16px 18px;border-bottom:1px solid var(--bd)}
-.ph-body{padding:10px}
-.task-card{display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;margin-bottom:3px;border:1px solid transparent}
+.ph-hdr{padding:20px 22px;border-bottom:1px solid var(--bd)}
+.ph-body{padding:14px}
+.task-card{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;margin-bottom:4px;border:1px solid transparent}
 .task-card.editing{background:rgba(255,255,255,0.02);border:1px solid var(--bd);cursor:grab}
 .task-card.dragging{opacity:.4}
-.task-dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
-.task-title{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.task-who{font-size:10px;color:var(--td);margin-top:1px}
-.add-btn{width:100%;padding:10px;border-radius:8px;border:1px dashed;background:transparent;font-size:12px;font-weight:500;cursor:pointer;margin-top:4px;opacity:.6;transition:opacity .2s}
+.task-dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0}
+.task-title{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.task-who{font-size:12px;color:var(--td);margin-top:2px}
+.add-btn{width:100%;padding:12px;border-radius:10px;border:1px dashed;background:transparent;font-size:13px;font-weight:500;cursor:pointer;margin-top:6px;opacity:.6;transition:opacity .2s}
 .add-btn:hover{opacity:1}
-.del-btn{width:24px;height:24px;border-radius:6px;border:none;background:rgba(248,113,113,0.15);color:var(--red);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.edit-input{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:var(--t);padding:3px 6px;font-size:12px;width:100%;outline:none;font-family:inherit}
-.edit-select{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:var(--t);padding:3px 6px;font-size:11px;outline:none;font-family:inherit;cursor:pointer;appearance:none;-webkit-appearance:none}
-.edit-btn{padding:8px 20px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--nb);transition:all .2s;font-family:inherit}
+.del-btn{width:28px;height:28px;border-radius:8px;border:none;background:rgba(248,113,113,0.15);color:var(--red);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.edit-input{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:var(--t);padding:5px 8px;font-size:14px;width:100%;outline:none;font-family:inherit}
+.edit-select{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:var(--t);padding:5px 8px;font-size:13px;outline:none;font-family:inherit;cursor:pointer;appearance:none;-webkit-appearance:none}
+.edit-btn{padding:10px 24px;border-radius:24px;font-size:14px;font-weight:600;cursor:pointer;border:1px solid var(--nb);transition:all .2s;font-family:inherit}
 .edit-btn.on{background:var(--neon);color:#111}
 .edit-btn.off{background:transparent;color:var(--neon)}
-.footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--bd);display:flex;justify-content:space-between;font-size:11px;color:var(--td)}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--neon);color:#111;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;z-index:100}
+.footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--bd);display:flex;justify-content:space-between;font-size:13px;color:var(--td)}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--neon);color:#111;padding:14px 32px;border-radius:12px;font-size:15px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;z-index:100}
 .toast.show{opacity:1}
+.tabs{display:flex;gap:0;margin-bottom:36px;border-bottom:2px solid var(--bd)}
+.tab{padding:14px 36px;font-size:16px;font-weight:600;color:var(--td);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s}
+.tab:hover{color:var(--ts)}
+.tab.active{color:var(--neon);border-bottom-color:var(--neon)}
 </style>
 </head>
 <body>
@@ -88,11 +92,11 @@ const PHOTOS={
   "표지수":"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD0OqmpahBpto1xOeBwqjqx9Kt15z4/1RhrUdpgmOGMEjsWPNZM2irsr6p4z1VrvbbzCFCeFRRgfiRk1paB4ynMywaqyvGx2+cBgoffHUVS0DTYtSdLi6iZCuCCVwD9PaodfsorSOSW1jJXI34XpnvUc5t7PS56YDS1i+GLtrzQbSZjltmw/VTj+lbIq0zFqw81wd/Pax+Mb6DUVRopmiMZZcgOuMD8c13leWePpAPEMpjOG/djI7HAP9BRJXHB2dz0WO0tkl+0pAvm4wWC81n6pb2A0+4vrmBdyRtksMZAzT7GUXmkW0l6GzJEr71yOSPauV8a35isYdMsg/lXEh82RiSWAxwM1C10Nntc3PAjFvDFuW6l3J/76rpRXNeCnjXQo4g67w7ZXPI5rpRVGD3INSu/sOnXF3sL+UhYKO5rzS10DU/Eeqi4uEkitC5LzuMbvXb6/wAq9UCCRSrAFTwQR1qUjjHGP5VVriUrFWK3SOBIohhEUKo9AKxvEmgJqlliMYuIgWjx3b0/GuhPtkmkIY+i/qaXIV7Q8l0bVrjTb5nVtuDiaFx97HX8a9OtbyO8tIriMEK+OD2rgPG+mCz1v7XEDtuRvb/eHB/pXR+EPMGgJ5gba0p2ZPQe3tnNC00HLVXP/9k="
 };
 const MEMBERS=["염지연","류영민","조혜진","양정재","표지수"];
-const ST={done:{l:"완료",c:"#2DD4A0"},prog:{l:"진행 중",c:"#6C8EEF"},plan:{l:"개발 예정",c:"#d4f542"}};
+const ST={done:{l:"완료",c:"#3EB890"},prog:{l:"진행 중",c:"#7B93D4"},plan:{l:"개발 예정",c:"#C9B458"}};
 const PH=[
-  {id:"P1",label:"Phase 1 · 기반 구축",sub:"3월",c:"#2DD4A0",bg:"rgba(45,212,160,0.1)",st:"done"},
-  {id:"P2",label:"Phase 2 · 통합·고도화",sub:"4~5월",c:"#6C8EEF",bg:"rgba(108,142,239,0.1)",st:"prog"},
-  {id:"P3",label:"Phase 3 · 확장 · 자동화",sub:"6월~",c:"#d4f542",bg:"rgba(212,245,66,0.1)",st:"plan"}
+  {id:"P1",label:"Phase 1 · 기반 구축",sub:"3월",c:"#3EB890",bg:"rgba(45,212,160,0.1)",st:"done"},
+  {id:"P2",label:"Phase 2 · 통합·고도화",sub:"4~5월",c:"#7B93D4",bg:"rgba(108,142,239,0.1)",st:"prog"},
+  {id:"P3",label:"Phase 3 · 확장 · 자동화",sub:"6월~",c:"#C9B458",bg:"rgba(201,180,88,0.08)",st:"plan"}
 ];
 
 let tasks=[
@@ -114,6 +118,7 @@ const ST_ICON={done:"✅",prog:"🔵",plan:"🟡"};
 let editMode=false;
 let dragIdx=null;
 let charts={};
+let activeTab='overview';
 
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
@@ -130,28 +135,37 @@ function render(){
 
   // Header
   h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:40px">';
-  h+='<div style="display:flex;align-items:center;gap:16px"><div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#d4f542,#E8B931);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#111">AX</div><div><h1 style="font-size:24px;font-weight:700;letter-spacing:-.3px">Comms <span style="color:#d4f542">AX</span> Strategy</h1><p style="font-size:13px;color:var(--td)">F&F 커뮤니케이션팀 AI 전환 전략 · 2026</p></div></div>';
+  h+='<div style="display:flex;align-items:center;gap:16px"><div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#C9B458,#E8B931);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#111">AX</div><div><h1 style="font-size:30px;font-weight:700;letter-spacing:-.3px">Comms <span style="color:#C9B458">AX</span> Strategy</h1><p style="font-size:13px;color:var(--td)">F&F 커뮤니케이션팀 AI 전환 전략 · 2026</p></div></div>';
   h+='<div style="display:flex;align-items:center;gap:12px"><span style="font-size:12px;color:var(--td)">2026. 04. 10</span>';
   h+='<div style="display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;background:var(--nd);border:1px solid var(--nb)"><span style="width:6px;height:6px;border-radius:50%;background:var(--neon);animation:pulse 2s infinite"></span><span style="font-size:11px;color:var(--neon);font-weight:500">Live</span></div>';
   h+='<button class="edit-btn '+(editMode?'on':'off')+'" onclick="toggleEdit()">'+(editMode?'✓ 편집 완료':'✏️ 편집')+'</button></div></div>';
 
-  // Metrics
+  // Tabs
+  h+='<div class="tabs">';
+  h+='<div class="tab'+(activeTab==='overview'?' active':'')+'" onclick="switchTab(\'overview\')">Overview</div>';
+  h+='<div class="tab'+(activeTab==='tasks'?' active':'')+'" onclick="switchTab(\'tasks\')">AX 과제 현황</div>';
+  h+='</div>';
+
   const mets=[{l:'전체 과제',v:total,c:'var(--neon)',sub:'6개 업무 영역'},{l:'완료',v:done,c:'var(--green)',sub:'Phase 1 기반 구축'},{l:'진행 중',v:prog,c:'var(--blue)',sub:'Phase 2 통합·고도화'},{l:'개발 예정',v:plan,c:'var(--amber)',sub:'Phase 3 시스템 확장'}];
+
+  if(activeTab==='overview'){
+
+  // Metrics
   h+='<div class="metrics">';
   mets.forEach(m=>{h+='<div class="mc"><div class="mc-bar" style="background:'+m.c+'"></div><div class="mc-label">'+m.l+'</div><div class="mc-val" style="color:'+m.c+'">'+m.v+'</div><div class="mc-sub">'+m.sub+'</div><div class="mc-prog"><div class="mc-prog-fill" style="background:'+m.c+';width:'+(total?(m.v/total)*100:0)+'%"></div></div></div>'});
   h+='</div>';
 
   // Charts
-  h+='<div class="charts"><div class="card"><div class="card-title">업무 영역별 현황</div><div style="height:220px"><canvas id="barChart"></canvas></div></div>';
-  h+='<div class="card"><div class="card-title">Phase별 분포</div><div style="height:190px"><canvas id="pieChart"></canvas></div>';
+  h+='<div class="charts"><div class="card"><div class="card-title">업무 영역별 현황</div><div style="height:160px"><canvas id="barChart"></canvas></div></div>';
+  h+='<div class="card"><div class="card-title">Phase별 분포</div><div style="height:150px"><canvas id="pieChart"></canvas></div>';
   h+='<div style="display:flex;justify-content:center;gap:14px;margin-top:8px">';
-  [{n:'완료',c:'#2DD4A0',v:done},{n:'진행 중',c:'#6C8EEF',v:prog},{n:'개발 예정',c:'#d4f542',v:plan}].forEach(d=>{h+='<div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ts)"><span style="width:8px;height:8px;border-radius:3px;background:'+d.c+'"></span>'+d.n+' '+d.v+'</div>'});
+  [{n:'완료',c:'#3EB890',v:done},{n:'진행 중',c:'#7B93D4',v:prog},{n:'개발 예정',c:'#C9B458',v:plan}].forEach(d=>{h+='<div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ts)"><span style="width:8px;height:8px;border-radius:3px;background:'+d.c+'"></span>'+d.n+' '+d.v+'</div>'});
   h+='</div></div></div>';
 
   // Team R&R
   h+='<div style="margin-bottom:28px"><div class="sec-title"><span class="sec-bar" style="background:var(--neon)"></span>팀 R&R</div>';
-  h+='<div class="team-lead"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#d4f542,#E8B931)"></div>'+avatar('염지연',60)+'<div style="flex:1"><div style="font-size:20px;font-weight:700">염지연 부장</div><div style="font-size:13px;color:var(--ts);margin-top:4px">AX 총괄 · 전략 · 경영진 커뮤니케이션</div><div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><span class="pill">AX 시스템 전체 설계·개발·고도화 총괄</span><span class="pill">팀 AX Transformation Lead</span></div></div></div>';
-  const tmColors=['#2DD4A0','#6C8EEF','#A78BFA','#F0A744'];
+  h+='<div class="team-lead"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#C9B458,#E8B931)"></div>'+avatar('염지연',60)+'<div style="flex:1"><div style="font-size:20px;font-weight:700">염지연 부장</div><div style="font-size:13px;color:var(--ts);margin-top:4px">AX 총괄 · 전략 · 경영진 커뮤니케이션</div><div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><span class="pill">AX 시스템 전체 설계·개발·고도화 총괄</span><span class="pill">팀 AX Transformation Lead</span></div></div></div>';
+  const tmColors=['#3EB890','#7B93D4','#9484C4','#D4994A'];
   const tmData=[{n:'류영민',ti:'차장',role:'미디어, 리스크, ESG, CSR',duties:['미디어 AX 전환','리스크 관리 AX 전환','ESG 및 CSR AX 전환']},{n:'조혜진',ti:'과장',role:'사내 PR, MPR, 링크드인',duties:['사내 PR/MPR AX 전환','링크드인·외부채널 AX','PR Hub Dashboard 고도화']},{n:'양정재',ti:'대리',role:'미디어, 리스크, ESG',duties:['미디어 AX 전환','리스크 관리 AX 전환','ESG AX 전환']},{n:'표지수',ti:'담당',role:'사내 PR, 미디어, ESG, CSR',duties:['사내 PR AX 전환','미디어 AX(스폰서십)','CSR AX 전환']}];
   h+='<div class="team-grid">';
   tmData.forEach((m,i)=>{h+='<div class="tm-card"><div class="tm-stripe" style="background:'+tmColors[i]+'"></div><div style="display:flex;align-items:center;gap:12px;margin-top:4px">'+avatar(m.n,42)+'<div><div style="font-size:14px;font-weight:600">'+m.n+' <span style="font-weight:400;color:var(--td);font-size:12px">'+m.ti+'</span></div><div style="font-size:11px;color:var(--td);margin-top:1px">'+m.role+'</div></div></div><div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--bd)">'+m.duties.map(d=>'<div class="duty"><span class="duty-dot" style="background:'+tmColors[i]+'"></span><span class="duty-text">'+d+'</span></div>').join('')+'</div></div>'});
@@ -159,16 +173,19 @@ function render(){
 
   // AX Vision
   h+='<div style="margin-bottom:28px"><div class="sec-title"><span class="sec-bar" style="background:var(--neon)"></span>F&F 커뮤니케이션팀 AX 비전</div>';
-  const vis=[{icon:'⚡',title:'실행 효율 혁신',c:'#d4f542',items:['수동 업무 30~40% → 5% 이하','미디어 대응 3시간 → 30분']},{icon:'📊',title:'데이터 기반 PR',c:'#6C8EEF',items:['데이터 기반 의사결정 80%+','성과 측정 정확도 2배 향상']},{icon:'🧠',title:'전략 조직 전환',c:'#2DD4A0',items:['전략 업무 비중 10% → 30%+','단순 대응 → 선제 대응 체계']},{icon:'🚨',title:'리스크 대응 고도화',c:'#F0A744',items:['이슈 감지 실시간화','위기 대응 속도 2배 개선']},{icon:'🚀',title:'신규 영역 창출',c:'#A78BFA',items:['경쟁사 PR 패턴 분석·벤치마킹','AI 기반 선제적 이슈 예측']}];
+  const vis=[{icon:'⚡',title:'실행 효율 혁신',c:'#C9B458',items:['수동 업무 30~40% → 5% 이하','미디어 대응 3시간 → 30분']},{icon:'📊',title:'데이터 기반 PR',c:'#7B93D4',items:['데이터 기반 의사결정 80%+','성과 측정 정확도 2배 향상']},{icon:'🧠',title:'전략 조직 전환',c:'#3EB890',items:['전략 업무 비중 10% → 30%+','단순 대응 → 선제 대응 체계']},{icon:'🚨',title:'리스크 대응 고도화',c:'#D4994A',items:['이슈 감지 실시간화','위기 대응 속도 2배 개선']},{icon:'🚀',title:'신규 영역 창출',c:'#9484C4',items:['경쟁사 PR 패턴 분석·벤치마킹','AI 기반 선제적 이슈 예측']}];
   h+='<div class="vision-grid">';
-  vis.forEach(v=>{h+='<div class="v-card"><div class="v-stripe" style="background:'+v.c+'"></div><div class="v-icon">'+v.icon+'</div><div class="v-title" style="color:'+v.c+'">'+v.title+'</div>'+v.items.map(it=>'<div class="v-item"><span class="v-dot" style="background:'+v.c+'"></span><span class="v-text">'+it+'</span></div>').join('')+'</div>'});
+  vis.forEach(v=>{h+='<div class="v-card"><div class="v-stripe" style="background:'+v.c+'"></div><div class="v-icon">'+v.icon+'</div><div class="v-title" style="color:'+v.c+'">'+v.title+'</div></div>'});
+  h+='</div></div>';
+
+  } // end overview tab
+
+  if(activeTab==='tasks'){
+
+  // Metrics (과제 탭에도 요약)
+  h+='<div class="metrics">';
+  mets.forEach(m=>{h+='<div class="mc"><div class="mc-bar" style="background:'+m.c+'"></div><div class="mc-label">'+m.l+'</div><div class="mc-val" style="color:'+m.c+'">'+m.v+'</div><div class="mc-sub">'+m.sub+'</div><div class="mc-prog"><div class="mc-prog-fill" style="background:'+m.c+';width:'+(total?(m.v/total)*100:0)+'%"></div></div></div>'});
   h+='</div>';
-  // Composition bar
-  h+='<div class="comp-bar"><div class="comp-bar-inner">';
-  [{l:'관계·소통',p:30,c:'#2DD4A0',tc:'#fff'},{l:'전략 기획',p:25,c:'#6C8EEF',tc:'#fff'},{l:'콘텐츠 제작',p:15,c:'#F0A744',tc:'#fff'},{l:'수동',p:5,c:'#F472B6',tc:'#fff'},{l:'★ 신규 영역',p:25,c:'#d4f542',tc:'#111'}].forEach(sg=>{h+='<div class="comp-seg" style="width:'+sg.p+'%;background:'+sg.c+';color:'+sg.tc+';font-size:'+(sg.p>=10?11:7)+'px">'+sg.l+'</div>'});
-  h+='</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"><div style="font-size:12px;font-weight:600;color:var(--ts)">AX 전환 후 업무 구성</div><div class="comp-legend">';
-  [{l:'관계·소통 30%',c:'#2DD4A0'},{l:'전략 기획 25%',c:'#6C8EEF'},{l:'★ 신규 영역 25%',c:'#d4f542'},{l:'콘텐츠 15%',c:'#F0A744'},{l:'수동 5%',c:'#F472B6'}].forEach(lg=>{h+='<div class="comp-legend-item"><span class="comp-legend-dot" style="background:'+lg.c+'"></span>'+lg.l+'</div>'});
-  h+='</div></div></div></div>';
 
   // Tasks - 업무영역 x Phase 매트릭스
   h+='<div style="margin-bottom:28px"><div class="sec-title"><span class="sec-bar" style="background:var(--blue)"></span>AX 과제 현황';
@@ -177,8 +194,8 @@ function render(){
 
   h+='<div style="background:var(--s);border-radius:16px;border:1px solid var(--bd);overflow:hidden">';
   h+='<div style="display:grid;grid-template-columns:180px 1fr 1fr 1fr">';
-  h+='<div style="padding:14px 12px;font-size:13px;font-weight:700;color:var(--ts);background:var(--s2);border-bottom:1px solid var(--bd)">업무 영역</div>';
-  PH.forEach(function(ph){h+='<div style="padding:14px 12px;text-align:center;font-size:13px;font-weight:700;color:'+ph.c+';background:'+ph.bg+';border-bottom:1px solid var(--bd);border-left:1px solid var(--bd)"><div>'+ph.label+'</div><div style="font-size:11px;margin-top:2px;opacity:.8">'+ph.sub+'</div></div>'});
+  h+='<div style="padding:14px 12px;font-size:15px;font-weight:700;color:var(--ts);background:var(--s2);border-bottom:1px solid var(--bd)">업무 영역</div>';
+  PH.forEach(function(ph){h+='<div style="padding:14px 12px;text-align:center;font-size:16px;font-weight:700;color:'+ph.c+';background:'+ph.bg+';border-bottom:1px solid var(--bd);border-left:1px solid var(--bd)"><div>'+ph.label+'</div><div style="font-size:11px;margin-top:2px;opacity:.8">'+ph.sub+'</div></div>'});
 
   CATS.forEach(function(cat){
     var catTasks=tasks.filter(function(t){return t.cat===cat.key});
@@ -218,7 +235,7 @@ function render(){
         } else {
           h+='<div style="padding:6px 8px;border-radius:8px;margin-bottom:4px;font-size:12px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02)">';
           h+='<div style="display:flex;align-items:center;gap:5px"><span style="font-size:11px">'+si+'</span><span style="font-weight:500;color:'+sc+'">'+esc(tk.t)+'</span></div>';
-          h+='<div style="font-size:10px;color:var(--td);margin-top:2px;padding-left:18px">👤 '+esc(tk.w)+'</div></div>';
+          h+='<div style="font-size:12px;color:var(--td);margin-top:3px;padding-left:20px">👤 '+esc(tk.w)+'</div></div>';
         }
       });
       if(!cellTasks.length&&!editMode) h+='<div style="font-size:11px;color:var(--bd);text-align:center;padding:12px">—</div>';
@@ -228,11 +245,13 @@ function render(){
   });
   h+='</div></div>';
 
+  } // end tasks tab
+
   // Footer
   h+='<div class="footer"><span>F&F 커뮤니케이션팀 · AX Transformation Dashboard</span><span>Powered by Claude AI</span></div>';
 
   app.innerHTML=h;
-  renderCharts(done,prog,plan);
+  if(activeTab==='overview') renderCharts(done,prog,plan);
 }
 
 function renderCharts(done,prog,plan){
@@ -241,15 +260,16 @@ function renderCharts(done,prog,plan){
 
   const barCtx=document.getElementById('barChart');
   if(barCtx){
-    charts.bar=new Chart(barCtx,{type:'bar',data:{labels:['콘텐츠','이슈관리','PR/MPR','KPI','ESG'],datasets:[{label:'완료',data:[1,2,2,0,0],backgroundColor:'#2DD4A0'},{label:'진행 중',data:[3,2,3,3,0],backgroundColor:'#6C8EEF'},{label:'예정',data:[1,1,2,1,2],backgroundColor:'#d4f542'}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,scales:{x:{display:false,stacked:true},y:{stacked:true,ticks:{color:'#6e6a80',font:{size:11}},grid:{display:false},border:{display:false}}},plugins:{legend:{display:false},tooltip:{backgroundColor:'#221f2a',borderColor:'rgba(255,255,255,0.12)',borderWidth:1,titleColor:'#F0EEF6',bodyColor:'#a09bb2',cornerRadius:10}}}});
+    charts.bar=new Chart(barCtx,{type:'bar',data:{labels:['콘텐츠','이슈관리','PR/MPR','KPI','ESG'],datasets:[{label:'완료',data:[1,2,2,0,0],backgroundColor:'#3EB890'},{label:'진행 중',data:[3,2,3,3,0],backgroundColor:'#7B93D4'},{label:'예정',data:[1,1,2,1,2],backgroundColor:'#C9B458'}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,scales:{x:{display:false,stacked:true},y:{stacked:true,ticks:{color:'#6e6a80',font:{size:11}},grid:{display:false},border:{display:false}}},plugins:{legend:{display:false},tooltip:{backgroundColor:'#221f2a',borderColor:'rgba(255,255,255,0.12)',borderWidth:1,titleColor:'#F0EEF6',bodyColor:'#a09bb2',cornerRadius:10}}}});
   }
   const pieCtx=document.getElementById('pieChart');
   if(pieCtx){
-    charts.pie=new Chart(pieCtx,{type:'doughnut',data:{labels:['완료','진행 중','개발 예정'],datasets:[{data:[done,prog,plan],backgroundColor:['#2DD4A0','#6C8EEF','#d4f542'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{backgroundColor:'#221f2a',borderColor:'rgba(255,255,255,0.12)',borderWidth:1,titleColor:'#F0EEF6',bodyColor:'#a09bb2',cornerRadius:10}}}});
+    charts.pie=new Chart(pieCtx,{type:'doughnut',data:{labels:['완료','진행 중','개발 예정'],datasets:[{data:[done,prog,plan],backgroundColor:['#3EB890','#7B93D4','#C9B458'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{backgroundColor:'#221f2a',borderColor:'rgba(255,255,255,0.12)',borderWidth:1,titleColor:'#F0EEF6',bodyColor:'#a09bb2',cornerRadius:10}}}});
   }
 }
 
 function toggleEdit(){editMode=!editMode;render();if(!editMode)autoSave();toast(editMode?'편집 모드 ON':'편집 모드 OFF')}
+function switchTab(tab){activeTab=tab;render()}
 function updTask(i,f,v){tasks[i][f]=v;render();autoSave()}
 function delTask(i){if(confirm('"'+tasks[i].t+'" 삭제?')){tasks.splice(i,1);render();autoSave();toast('삭제')}}
 function addTask(pid){const ph=PH.find(p=>p.id===pid);tasks.push({t:'새 과제',w:MEMBERS[0],s:ph.st,p:pid,cat:CATS[0].key});render();autoSave();toast('추가')}
@@ -262,7 +282,16 @@ function dropToCell(catIdx,phIdx){if(dragIdx===null)return;var ph=PH[phIdx];var 
 
 // Cloud Save/Load
 function collectState(){return{tasks,savedAt:new Date().toISOString()}}
-function applyState(state){if(state&&state.tasks){tasks=state.tasks;return true}return false}
+function applyState(state){
+  if(state&&state.tasks&&state.tasks.length>0){
+    // cat 필드가 없는 구버전 데이터면 무시
+    var hasCat=state.tasks.some(function(t){return t.cat});
+    if(!hasCat) return false;
+    tasks=state.tasks;
+    return true;
+  }
+  return false;
+}
 function saveToCache(state){try{localStorage.setItem(SKEY,JSON.stringify(state))}catch(e){}}
 function loadFromCache(){try{const r=localStorage.getItem(SKEY);return r?JSON.parse(r):null}catch(e){return null}}
 
@@ -294,12 +323,20 @@ async function loadFromCloud(){
   return null;
 }
 
+const DEFAULT_TASKS=JSON.parse(JSON.stringify(tasks));
+
 async function init(){
-  const cached=loadFromCache();
-  if(cached && cached.tasks && cached.tasks.length > 0) applyState(cached);
+  try{
+    const cached=loadFromCache();
+    if(cached && cached.tasks && cached.tasks.length > 0) applyState(cached);
+  }catch(e){}
+  if(tasks.length===0) tasks=JSON.parse(JSON.stringify(DEFAULT_TASKS));
   render();
-  const cloud=await loadFromCloud();
-  if(cloud && cloud.tasks && cloud.tasks.length > 0){applyState(cloud);saveToCache(cloud);render()}
+  try{
+    const cloud=await loadFromCloud();
+    if(cloud && cloud.tasks && cloud.tasks.length > 0){applyState(cloud);saveToCache(cloud);render()}
+  }catch(e){}
+  if(tasks.length===0){tasks=JSON.parse(JSON.stringify(DEFAULT_TASKS));render()}
 }
 init();
 </script>
