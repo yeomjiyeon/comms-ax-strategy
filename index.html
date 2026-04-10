@@ -144,6 +144,7 @@ function render(){
   h+='<div class="tabs">';
   h+='<div class="tab'+(activeTab==='overview'?' active':'')+'" onclick="switchTab(\'overview\')">Overview</div>';
   h+='<div class="tab'+(activeTab==='tasks'?' active':'')+'" onclick="switchTab(\'tasks\')">AX 과제 현황</div>';
+  h+='<div class="tab'+(activeTab==='vision'?' active':'')+'" onclick="switchTab(\'vision\')">PR AX 비전</div>';
   h+='</div>';
 
   const mets=[{l:'전체 과제',v:total,c:'var(--neon)',sub:'6개 업무 영역'},{l:'완료',v:done,c:'var(--green)',sub:'Phase 1 기반 구축'},{l:'진행 중',v:prog,c:'var(--blue)',sub:'Phase 2 통합·고도화'},{l:'개발 예정',v:plan,c:'var(--amber)',sub:'Phase 3 시스템 확장'}];
@@ -171,14 +172,133 @@ function render(){
   tmData.forEach((m,i)=>{h+='<div class="tm-card"><div class="tm-stripe" style="background:'+tmColors[i]+'"></div><div style="display:flex;align-items:center;gap:12px;margin-top:4px">'+avatar(m.n,42)+'<div><div style="font-size:14px;font-weight:600">'+m.n+' <span style="font-weight:400;color:var(--td);font-size:12px">'+m.ti+'</span></div><div style="font-size:11px;color:var(--td);margin-top:1px">'+m.role+'</div></div></div><div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--bd)">'+m.duties.map(d=>'<div class="duty"><span class="duty-dot" style="background:'+tmColors[i]+'"></span><span class="duty-text">'+d+'</span></div>').join('')+'</div></div>'});
   h+='</div></div>';
 
+  } // end overview tab
+
+  if(activeTab==='vision'){
+
   // AX Vision
   h+='<div style="margin-bottom:28px"><div class="sec-title"><span class="sec-bar" style="background:var(--neon)"></span>F&F 커뮤니케이션팀 AX 비전</div>';
-  const vis=[{icon:'⚡',title:'실행 효율 혁신',c:'#C9B458',items:['수동 업무 30~40% → 5% 이하','미디어 대응 3시간 → 30분']},{icon:'📊',title:'데이터 기반 PR',c:'#7B93D4',items:['데이터 기반 의사결정 80%+','성과 측정 정확도 2배 향상']},{icon:'🧠',title:'전략 조직 전환',c:'#3EB890',items:['전략 업무 비중 10% → 30%+','단순 대응 → 선제 대응 체계']},{icon:'🚨',title:'리스크 대응 고도화',c:'#D4994A',items:['이슈 감지 실시간화','위기 대응 속도 2배 개선']},{icon:'🚀',title:'신규 영역 창출',c:'#9484C4',items:['경쟁사 PR 패턴 분석·벤치마킹','AI 기반 선제적 이슈 예측']}];
+  const vis=[{icon:'⚡',title:'실행 효율 혁신',c:'#C9B458',items:['수동 업무 30~40% → 5% 이하','미디어 대응 3시간 → 30분']},{icon:'📊',title:'데이터 기반 PR',c:'#7B93D4',items:['데이터 기반 의사결정 80%+','성과 측정 정확도 2배 향상']},{icon:'🧠',title:'전략 조직 전환',c:'#3EB890',items:['전략 업무 비중 10% → 30%+','단순 대응 → 선제 대응 체계']},{icon:'🚨',title:'리스크 대응 고도화',c:'#D4994A',items:['이슈 감지 실시간화','위기 대응 속도 2배 개선']},{icon:'🚀',title:'신규 영역 창출',c:'#9484C4',items:['신규 영역 PR 업무 (엔터)','AI 기반 선제적 이슈 예측']}];
   h+='<div class="vision-grid">';
-  vis.forEach(v=>{h+='<div class="v-card"><div class="v-stripe" style="background:'+v.c+'"></div><div class="v-icon">'+v.icon+'</div><div class="v-title" style="color:'+v.c+'">'+v.title+'</div></div>'});
+  vis.forEach(v=>{h+='<div class="v-card"><div class="v-stripe" style="background:'+v.c+'"></div><div class="v-icon">'+v.icon+'</div><div class="v-title" style="color:'+v.c+'">'+v.title+'</div>'+v.items.map(it=>'<div class="v-item"><span class="v-dot" style="background:'+v.c+'"></span><span class="v-text">'+it+'</span></div>').join('')+'</div>'});
   h+='</div></div>';
 
-  } // end overview tab
+  // Composition bar
+  h+='<div class="comp-bar"><div class="comp-bar-inner">';
+  [{l:'관계·소통',p:30,c:'#3EB890',tc:'#fff'},{l:'전략 기획',p:25,c:'#7B93D4',tc:'#fff'},{l:'콘텐츠 제작',p:15,c:'#D4994A',tc:'#fff'},{l:'수동',p:5,c:'#C47498',tc:'#fff'},{l:'★ 신규 영역',p:25,c:'#C9B458',tc:'#111'}].forEach(function(sg){h+='<div class="comp-seg" style="width:'+sg.p+'%;background:'+sg.c+';color:'+sg.tc+';font-size:'+(sg.p>=10?14:8)+'px">'+sg.l+'</div>'});
+  h+='</div><div style="margin-top:14px;text-align:center"><div style="font-size:15px;font-weight:600;color:var(--ts)">✻ AX 전환 후 업무 구성</div></div></div>';
+
+  // Webtoon
+  h+='<div style="margin-top:36px"><div class="sec-title"><span class="sec-bar" style="background:var(--neon)"></span>AX 전환 후 홍보팀의 하루</div>';
+  h+='<svg width="100%" viewBox="0 0 680 1520" style="border-radius:16px;max-width:700px;display:block;margin:0 auto">';
+  h+='<style>.wt-panel{fill:#1a1820;stroke:#2a2633;stroke-width:1.5;rx:12}.wt-title{font-family:sans-serif;font-size:11px;font-weight:500;fill:#6e6a80;letter-spacing:1px}.wt-speech{font-family:sans-serif;font-size:12px;font-weight:400;fill:#1a1820}.wt-bold{font-family:sans-serif;font-size:12px;font-weight:600;fill:#1a1820}.wt-tag{font-family:sans-serif;font-size:10px;font-weight:500;fill:#C9B458}.wt-narr{font-family:sans-serif;font-size:11px;font-weight:400;fill:#a09bb2;font-style:italic}.wt-cut{font-family:sans-serif;font-size:10px;font-weight:500;fill:#C9B458}.wt-bubble{fill:#f0eef6;stroke:#d0cde0;stroke-width:1;rx:10}.wt-emoji{font-size:28px;font-family:sans-serif}.wt-em-sm{font-size:20px;font-family:sans-serif}.wt-em-lg{font-size:36px;font-family:sans-serif}</style>';
+
+  // CUT 1
+  h+='<rect x="20" y="20" width="310" height="350" class="wt-panel"/>';
+  h+='<text x="35" y="42" class="wt-cut">CUT 1</text><text x="80" y="42" class="wt-title">AM 7:50 · 출근길</text>';
+  h+='<circle cx="100" cy="130" r="40" fill="#C9B458" opacity="0.1"/><text x="100" y="138" class="wt-emoji" text-anchor="middle">🤖</text>';
+  h+='<text x="155" y="110" class="wt-narr">AI가 알아서 뉴스 수집 중...</text>';
+  h+='<rect x="60" y="170" width="120" height="75" rx="6" fill="#222" stroke="#3a3650" stroke-width="1"/><rect x="65" y="175" width="110" height="60" rx="3" fill="#1a2a1a"/>';
+  h+='<text x="120" y="200" text-anchor="middle" style="font-size:9px;fill:#3EB890;font-family:monospace">✓ 뉴스 52건 수집</text>';
+  h+='<text x="120" y="215" text-anchor="middle" style="font-size:9px;fill:#3EB890;font-family:monospace">✓ 레터 발송 완료</text>';
+  h+='<text x="120" y="230" text-anchor="middle" style="font-size:9px;fill:#C9B458;font-family:monospace">→ 팀 전원 수신</text>';
+  h+='<rect x="195" y="165" width="125" height="45" class="wt-bubble"/>';
+  h+='<text x="257" y="183" class="wt-speech" text-anchor="middle">출근하는 길에</text>';
+  h+='<text x="257" y="198" class="wt-bold" text-anchor="middle">스마트하게 업무 처리 📱</text>';
+  h+='<text x="35" y="320" class="wt-narr">출근길에 스마트폰으로 업무 현황 확인</text>';
+  h+='<text x="240" y="300" class="wt-em-sm">🚶‍♀️</text><text x="265" y="300" class="wt-em-sm">📱</text>';
+
+  // CUT 2
+  h+='<rect x="350" y="20" width="310" height="350" class="wt-panel"/>';
+  h+='<text x="365" y="42" class="wt-cut">CUT 2</text><text x="410" y="42" class="wt-title">AM 9:30 · 전략 기획</text>';
+  h+='<rect x="365" y="55" width="280" height="25" rx="4" fill="#C9B458" opacity="0.08"/>';
+  h+='<text x="505" y="72" text-anchor="middle" class="wt-tag" style="font-size:12px">경영진 커뮤니케이션 전략 수립</text>';
+  h+='<ellipse cx="505" cy="200" rx="100" ry="40" fill="#222" stroke="#3a3650" stroke-width="1"/>';
+  h+='<text x="420" y="165" class="wt-em-sm">👩‍💼</text><text x="480" y="145" class="wt-em-sm">👨‍💼</text><text x="540" y="145" class="wt-em-sm">👩‍💼</text><text x="580" y="165" class="wt-em-sm">👨‍💼</text>';
+  h+='<rect x="385" y="240" width="230" height="55" class="wt-bubble"/>';
+  h+='<text x="500" y="260" class="wt-speech" text-anchor="middle">반복 업무는 AI한테 맡기고</text>';
+  h+='<text x="500" y="278" class="wt-bold" text-anchor="middle">우린 \'왜\'에 집중합시다 💡</text>';
+  h+='<text x="365" y="335" class="wt-narr">데이터 기반 전략 수립에 집중</text>';
+
+  // CUT 3
+  h+='<rect x="20" y="390" width="310" height="350" class="wt-panel"/>';
+  h+='<text x="35" y="412" class="wt-cut">CUT 3</text><text x="80" y="412" class="wt-title">AM 11:00 · 리스크 대응</text>';
+  h+='<rect x="50" y="435" width="130" height="80" rx="6" fill="#222" stroke="#D46B6B" stroke-width="1.5"/><rect x="55" y="440" width="120" height="65" rx="3" fill="#2a1a1a"/>';
+  h+='<text x="115" y="462" text-anchor="middle" style="font-size:18px">🚨</text>';
+  h+='<text x="115" y="480" text-anchor="middle" style="font-size:9px;fill:#D46B6B;font-family:monospace">이슈 감지!</text>';
+  h+='<text x="115" y="495" text-anchor="middle" style="font-size:8px;fill:#D4994A;font-family:monospace">AI 1차 분석 완료</text>';
+  h+='<text x="230" y="480" class="wt-em-lg">🧐</text>';
+  h+='<rect x="60" y="530" width="250" height="55" class="wt-bubble"/>';
+  h+='<text x="185" y="550" class="wt-speech" text-anchor="middle">AI가 이슈 잡아서 분석까지 했네</text>';
+  h+='<text x="185" y="568" class="wt-bold" text-anchor="middle">난 판단만 하면 되겠다 ✅</text>';
+  h+='<text x="35" y="680" class="wt-narr">AI 감지 → 인간 판단 → 선제 대응</text>';
+  h+='<text x="35" y="700" class="wt-tag">리스크 대응 시간: 3시간 → 30분</text>';
+
+  // CUT 4
+  h+='<rect x="350" y="390" width="310" height="350" class="wt-panel"/>';
+  h+='<text x="365" y="412" class="wt-cut">CUT 4</text><text x="410" y="412" class="wt-title">PM 1:00 · 콘텐츠 제작</text>';
+  h+='<rect x="380" y="445" width="80" height="100" rx="8" fill="#7B93D4" opacity="0.15" stroke="#7B93D4" stroke-width="0.5"/>';
+  h+='<text x="420" y="480" class="wt-emoji" text-anchor="middle">📝</text><text x="420" y="510" text-anchor="middle" style="font-size:9px;fill:#7B93D4">AI 초안</text>';
+  h+='<text x="480" y="495" style="font-size:20px;fill:#C9B458">→</text>';
+  h+='<rect x="510" y="445" width="80" height="100" rx="8" fill="#3EB890" opacity="0.15" stroke="#3EB890" stroke-width="0.5"/>';
+  h+='<text x="550" y="480" class="wt-emoji" text-anchor="middle">✨</text><text x="550" y="510" text-anchor="middle" style="font-size:9px;fill:#3EB890">감성 터치</text>';
+  h+='<rect x="380" y="560" width="250" height="55" class="wt-bubble"/>';
+  h+='<text x="505" y="578" class="wt-speech" text-anchor="middle">AI가 뼈대 잡아주니까</text>';
+  h+='<text x="505" y="596" class="wt-bold" text-anchor="middle">나는 스토리텔링에 올인! 🎨</text>';
+  h+='<text x="365" y="700" class="wt-narr">보도자료·사내보·링크드인 콘텐츠 기획</text>';
+
+  // CUT 5
+  h+='<rect x="20" y="760" width="310" height="350" class="wt-panel"/>';
+  h+='<text x="35" y="782" class="wt-cut">CUT 5</text><text x="80" y="782" class="wt-title">PM 2:30 · 신규 영역 창출</text>';
+  h+='<rect x="50" y="810" width="200" height="110" rx="8" fill="#222" stroke="#3a3650" stroke-width="1"/>';
+  h+='<rect x="60" y="820" width="85" height="40" rx="4" fill="#9484C4" opacity="0.15"/><text x="102" y="835" text-anchor="middle" style="font-size:8px;fill:#9484C4">경쟁사 A</text><text x="102" y="850" text-anchor="middle" style="font-size:12px;fill:#9484C4">📊</text>';
+  h+='<rect x="155" y="820" width="85" height="40" rx="4" fill="#D4994A" opacity="0.15"/><text x="197" y="835" text-anchor="middle" style="font-size:8px;fill:#D4994A">경쟁사 B</text><text x="197" y="850" text-anchor="middle" style="font-size:12px;fill:#D4994A">📈</text>';
+  h+='<rect x="60" y="870" width="180" height="40" rx="4" fill="#3EB890" opacity="0.1"/><text x="150" y="892" text-anchor="middle" style="font-size:9px;fill:#3EB890">AI 패턴 분석 리포트 자동 생성</text>';
+  h+='<rect x="50" y="935" width="250" height="55" class="wt-bubble"/>';
+  h+='<text x="175" y="953" class="wt-speech" text-anchor="middle">경쟁사 PR 트렌드가 한눈에!</text>';
+  h+='<text x="175" y="971" class="wt-bold" text-anchor="middle">이제 선제적으로 움직이자 🎯</text>';
+  h+='<text x="35" y="1065" class="wt-narr">새로운 영역: 경쟁 PR 인텔리전스</text>';
+
+  // CUT 6
+  h+='<rect x="350" y="760" width="310" height="350" class="wt-panel"/>';
+  h+='<text x="365" y="782" class="wt-cut">CUT 6</text><text x="410" y="782" class="wt-title">PM 3:30 · 관계·소통</text>';
+  h+='<text x="430" y="850" class="wt-em-lg">☕</text><text x="490" y="840" class="wt-em-sm">👩‍💼</text><text x="530" y="840" class="wt-em-sm">📰</text><text x="560" y="840" class="wt-em-sm">🎤</text>';
+  h+='<rect x="380" y="870" width="250" height="30" rx="6" fill="#C9B458" opacity="0.08"/><text x="505" y="890" text-anchor="middle" style="font-size:10px;fill:#C9B458">AI가 분석한 기자 관심사 브리핑 완료</text>';
+  h+='<rect x="380" y="920" width="250" height="55" class="wt-bubble"/>';
+  h+='<text x="505" y="938" class="wt-speech" text-anchor="middle">데이터로 기자님 관심사 파악하니</text>';
+  h+='<text x="505" y="956" class="wt-bold" text-anchor="middle">미팅이 훨씬 깊어졌어요 🤝</text>';
+  h+='<text x="365" y="1065" class="wt-narr">관계·소통에 집중하는 진짜 PR</text>';
+
+  // CUT 7
+  h+='<rect x="20" y="1130" width="310" height="350" class="wt-panel"/>';
+  h+='<text x="35" y="1152" class="wt-cut">CUT 7</text><text x="80" y="1152" class="wt-title">저녁~밤 시간 · 퇴근 후</text>';
+  h+='<circle cx="175" cy="1270" r="70" fill="#C9B458" opacity="0.04"/>';
+  h+='<text x="100" y="1220" class="wt-em-sm">🌙</text><text x="240" y="1220" class="wt-em-sm">🏠</text>';
+  h+='<text x="130" y="1260" class="wt-em-sm">🛋️</text><text x="170" y="1250" class="wt-em-sm">👩‍💼</text><text x="210" y="1260" class="wt-em-sm">📱</text>';
+  h+='<rect x="45" y="1295" width="260" height="70" class="wt-bubble"/>';
+  h+='<text x="175" y="1315" class="wt-speech" text-anchor="middle">출퇴근 이동 중에도</text>';
+  h+='<text x="175" y="1333" class="wt-speech" text-anchor="middle">AI가 자동으로 업무를 처리해주니</text>';
+  h+='<text x="175" y="1351" class="wt-bold" text-anchor="middle">고도화된 전략 수립에 집중! 🧠</text>';
+  h+='<text x="35" y="1430" class="wt-narr">반복은 AI, 전략은 사람 — 새로운 일상</text>';
+
+  // CUT 8
+  h+='<rect x="350" y="1130" width="310" height="350" class="wt-panel"/>';
+  h+='<text x="365" y="1152" class="wt-cut">CUT 8</text><text x="410" y="1152" class="wt-title">다음날 AM 8:00</text>';
+  h+='<rect x="370" y="1170" width="270" height="130" rx="10" fill="#C9B458" opacity="0.06" stroke="#C9B458" stroke-width="0.5"/>';
+  h+='<text x="505" y="1200" class="wt-em-lg" text-anchor="middle">🤖</text>';
+  h+='<text x="505" y="1230" text-anchor="middle" style="font-size:11px;fill:#C9B458;font-weight:500">Good morning!</text>';
+  h+='<text x="505" y="1250" text-anchor="middle" style="font-size:10px;fill:#a09bb2">오늘의 뉴스 52건 · 이슈 0건</text>';
+  h+='<text x="505" y="1268" text-anchor="middle" style="font-size:10px;fill:#a09bb2">경쟁사 동향 · 미디어 리포트 준비 완료</text>';
+  h+='<rect x="375" y="1310" width="250" height="70" class="wt-bubble"/>';
+  h+='<text x="500" y="1328" class="wt-speech" text-anchor="middle">누구도 따라올 수 없는 PR 업무,</text>';
+  h+='<text x="500" y="1346" class="wt-bold" text-anchor="middle">F&F 홍보팀만 할 수 있지 💪</text>';
+  h+='<text x="500" y="1364" class="wt-speech" text-anchor="middle">새로운 업무 영역을 만들어가자!</text>';
+  h+='<text x="365" y="1440" class="wt-tag" style="font-size:12px">F&F 커뮤니케이션팀</text>';
+  h+='<text x="365" y="1458" class="wt-narr">AI는 도구, 사람은 전략 — AX의 완성</text>';
+  h+='<text x="340" y="1505" text-anchor="middle" style="font-size:13px;fill:#C9B458;font-weight:500">— F&F Comms AX Webtoon · 2026 —</text>';
+  h+='</svg></div>';
+
+  } // end vision tab
 
   if(activeTab==='tasks'){
 
